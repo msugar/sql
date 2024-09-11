@@ -6,7 +6,7 @@ This diagram was created in Markdown using just words thanks to GitHub's [Mermai
 
 Using Mermaid in Markdown on GitHub means there is no need to embed an image. Moreover, it's easy to see what changed in the model between versions. You can see the graphical representation on GitHub, or with a Mermaid editor like [Mermaid Live Editor](https://mermaid.live/) or [Mermaid Chart](https://www.mermaidchart.com/).
 
-But if you still want to see an embedded image, go the next [section](#).
+But if you still want to see an embedded image, go to the next [section](#embedded-diagram).
 
 ```mermaid
 ---
@@ -36,6 +36,6 @@ erDiagram
 
 ```
 
-## Using an Embedded Image
+## Using an Embedded Image {#embedded-diagram}
 
 ![Image of the Farmers Market - Logical Model (partial)](images/solution_1.png "Farmers Market - Logical Model (partial)")
