@@ -70,8 +70,7 @@ SELECT
 	STRFTIME('%Y', market_date) AS purchase_year,
 	SUM(quantity * cost_to_customer_per_qty) AS money_spent
 FROM customer_purchases
-WHERE purchase_month = '04' -- April
-	AND purchase_year = '2022'
+WHERE STRFTIME('%Y-%m', market_date) = '2022-04'
 GROUP BY 1,2,3;
 
 -- A simpler option:
