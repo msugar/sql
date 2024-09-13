@@ -12,11 +12,11 @@ of customers for them to give stickers to, sorted by last name, then first name.
 
 HINT: This query requires you to join two tables, use an aggregate function, and use the HAVING keyword. */
 
-SELECT customer_first_name, customer_last_name --, sum(quantity * cost_to_customer_per_qty) AS spent_amount
+SELECT c.customer_id, customer_first_name, customer_last_name
 FROM customer c
 JOIN customer_purchases cp
 	ON c.customer_id = cp.customer_id
-GROUP BY c.customer_id
+GROUP BY c.customer_id, customer_first_name, customer_last_name -- It would also work with just c.customer_id in SQLite3, but it's not standard.
 HAVING sum(quantity * cost_to_customer_per_qty) > 2000
 ORDER BY customer_last_name, customer_first_name;	
 
