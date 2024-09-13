@@ -41,7 +41,7 @@ It should use all of the columns from the product table, as well as a new column
 Name the timestamp column `snapshot_timestamp`. */
 
 -- To make it easier to re-run this SQL script
---DROP TABLE IF EXISTS product_units;
+-- DROP TABLE IF EXISTS product_units;
 
 CREATE TABLE product_units AS
 	SELECT *, CURRENT_TIMESTAMP AS snapshot_timestamp
@@ -51,14 +51,17 @@ CREATE TABLE product_units AS
 /*2. Using `INSERT`, add a new row to the product_units table (with an updated timestamp). 
 This can be any product you desire (e.g. add another record for Apple Pie). */
 
-INSERT INTO product_units (
-	product_id, 
+INSERT INTO product_units
+SELECT 
+	product_id,
 	product_name, 
 	product_size, 
 	product_category_id, 
 	product_qty_type, 
-	snapshot_timestamp
-) VALUES (24, 'Apple Pie (big)', '12"', 3, 'unit', CURRENT_TIMESTAMP);
+	CURRENT_TIMESTAMP as snapshot_timestamp
+FROM product_units s
+WHERE s.product_name = 'Apple Pie'
+LIMIT 1;
 
 -- DELETE
 /* 1. Delete the older record for the whatever product you added. 
@@ -66,7 +69,12 @@ INSERT INTO product_units (
 HINT: If you don't specify a WHERE clause, you are going to have a bad time.*/
 
 DELETE FROM product_units 
-WHERE snapshot_timestamp = (SELECT max(snapshot_timestamp) FROM product_units);
+WHERE (product_id, snapshot_timestamp) = (
+	SELECT x.product_id, min(x.snapshot_timestamp) -- Oldest
+	FROM product_units x
+	WHERE x.product_name = 'Apple Pie'
+	GROUP BY x.product_id
+);
 
 -- UPDATE
 /* 1.We want to add the current_quantity to the product_units table. 
@@ -108,8 +116,8 @@ WITH
 	)
 UPDATE product_units
 SET 
-	current_quantity = s.quantity,
-	snapshot_timestamp = CURRENT_TIMESTAMP
+	current_quantity = s.quantity
+	-- ,snapshot_timestamp = CURRENT_TIMESTAMP -- Should we update the timestamp?
 FROM
 	_quantity_update s
 WHERE
