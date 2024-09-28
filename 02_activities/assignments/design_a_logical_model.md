@@ -40,6 +40,7 @@ erDiagram
         string last_name
         string email
         string phone
+        date registration_date
     }
     CUSTOMER_ADDRESS {
         int customer_id PK, FK
@@ -69,6 +70,7 @@ erDiagram
         string last_name
         string email
         string phone
+        date registration_date
     }
     CUSTOMER_ADDRESS {
         int address_id PK
@@ -87,6 +89,13 @@ erDiagram
 This design creates a new record for each address change, allowing historical addresses to be retained. 
 
 When an address changes, you INSERT a new record with the new address information, and updates the flag in the previous record. The `effective_date` and `end_date` fields track the validity period of each address. The `is_current` boolean flag helps quickly identify the current address.
+
+### Bonus: Privacy Implications
+Yes, there are privacy implications when retaining historical data (Type 2 SCD). For example:
+
+- *Right to be Forgotten*: Completly erasing a customer's data history becomes more involved, making it harder to comply with "right to be forgotten" requests.
+- *Data Security*: More data stored, larger attack surface when data is exposed.
+- *Consent and Transparency*: A customer should be allowed to know what address information is kept, how long, or whether or not historical data is kept.
 
 ## Question 4
 Review the AdventureWorks Schema [here](https://imgur.com/a/u0m8fX6)
@@ -109,11 +118,11 @@ After examining the AdventureWorks schema, here are two key differences compared
    - AdventureWorks: Most entities have a `ModifiedDate` field that allows the system to track when each record was last modified (most likely with milliseconds or higher precision).
    - My ERD: Doesn't have an equivalent field.
 
-   *Reflection:* The AdventureWorks model allows the system to track when each record was last modified, what can be used for several important purposes, including:
-   - Data Integrity and Auditing
-   - Performance Optimization
-   - Replication and Synchronization
-   - Reporting and Analytics
+   *Reflection:* The AdventureWorks model allows the system to track when each record was last modified. This can be used in a number of different ways including the following:
+   - Data integrity and auditing
+   - Performance optimization
+   - Replication and synchronization
+   - Reporting and analytics
 
    Even a small bookstore could benefit from such a thoughtful approach to database design.
 
