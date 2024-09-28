@@ -80,8 +80,8 @@ erDiagram
         string province
         string postal_code
         string country
-        date effective_date
-        date end_date
+        timestamp effective_time
+        timestamp end_time
         boolean is_current
     }
 ```
